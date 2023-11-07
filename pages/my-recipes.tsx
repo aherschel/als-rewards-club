@@ -1,7 +1,6 @@
 import { Navbar } from '@/components/navbar'
-import { CreateTacoRecipeMutation, GenerateTacoRecipeQuery } from '@/codegen/API'
-import { createTacoRecipe } from '@/codegen/graphql/mutations'
-import { generateTacoRecipe } from '@/codegen/graphql/queries'
+import { CreateRecipeMutation } from '@/codegen/API'
+import { createRecipe } from '@/codegen/graphql/mutations'
 import { GraphQLResult } from '@aws-amplify/api-graphql'
 import { Authenticator } from '@aws-amplify/ui-react'
 import { API } from 'aws-amplify'
@@ -27,35 +26,18 @@ function MyRecipes() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const generateAIRecipe = async () => {
-    const res = await API.graphql({
-      query: generateTacoRecipe,
-      variables: {
-      prompt: 'A random taco recipe',
-      },
-    }) as GraphQLResult<GenerateTacoRecipeQuery>;
-
-    const aiRecipe = JSON.parse(res.data?.generateTacoRecipe!).completion
-
-    const extractedData = extractJson(aiRecipe);
-    if (extractedData) {
-      setTitle(extractedData.title);
-      setDescription(extractedData.description);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await API.graphql({
-        query: createTacoRecipe,
+        query: createRecipe,
         variables: {
           input: {
             title,
             description,
           },
         },
-      }) as GraphQLResult<CreateTacoRecipeMutation>;
+      }) as GraphQLResult<CreateRecipeMutation>;
 
       if (response.errors) {
         throw new Error(`Received API error: ${JSON.stringify(response.errors, null, 2)}`);
@@ -103,9 +85,6 @@ function MyRecipes() {
               />
             </section>
             <section className="flex flex-col w-full mt-4">
-              <button type="button" onClick={generateAIRecipe} className="btn btn-primary mb-4">
-                Generate AI Recipe
-              </button>
               <button type="submit" className="btn btn-accent">
                 submit
               </button>

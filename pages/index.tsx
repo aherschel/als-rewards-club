@@ -1,7 +1,7 @@
 import { Navbar } from '@/components/navbar'
-import { DeleteTacoRecipeMutation, ListTacoRecipesQuery, TacoRecipe } from '@/codegen/API'
-import { deleteTacoRecipe } from '@/codegen/graphql/mutations'
-import { listTacoRecipes } from '@/codegen/graphql/queries'
+import { DeleteRecipeMutation, ListRecipesQuery, Recipe } from '@/codegen/API'
+import { deleteRecipe } from '@/codegen/graphql/mutations'
+import { listRecipes } from '@/codegen/graphql/queries'
 import { GraphQLResult } from '@aws-amplify/api-graphql'
 import { useAuthenticator } from '@aws-amplify/ui-react'
 import { API } from 'aws-amplify'
@@ -9,23 +9,23 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 function Home() {
-  const [recipes, setRecipes] = useState<[] | TacoRecipe[]>([]);
+  const [recipes, setRecipes] = useState<[] | Recipe[]>([]);
   const { user } = useAuthenticator((context) => [context.user]);
 
   useEffect(() => {
     const loadRecipes = async () => {
       try {
         const response = await API.graphql({
-          query: listTacoRecipes,
+          query: listRecipes,
           authMode: user ? 'AMAZON_COGNITO_USER_POOLS' : 'AWS_IAM',
-        }) as GraphQLResult<ListTacoRecipesQuery>;
+        }) as GraphQLResult<ListRecipesQuery>;
 
         if (response.errors) {
           throw new Error(`Received API error: ${JSON.stringify(response.errors, null, 2)}`);
         }
         
-        const items = response.data?.listTacoRecipes?.items ?? [];
-        setRecipes(items.filter((item): item is TacoRecipe => Boolean(item)));
+        const items = response.data?.listRecipes?.items ?? [];
+        setRecipes(items.filter((item): item is Recipe => Boolean(item)));
       } catch (e) {
         console.error('Caught exception while loading recipes', e);
       }
@@ -38,9 +38,9 @@ function Home() {
     if (user) {
       try {
         const response = await API.graphql({
-          query: deleteTacoRecipe,
+          query: deleteRecipe,
           variables: { input: { id } },
-        }) as GraphQLResult<DeleteTacoRecipeMutation>;
+        }) as GraphQLResult<DeleteRecipeMutation>;
 
         if (response.errors) {
           throw new Error(`Received API error: ${JSON.stringify(response.errors, null, 2)}`);

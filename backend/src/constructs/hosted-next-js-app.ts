@@ -3,7 +3,6 @@ import { Stack, Duration } from 'aws-cdk-lib'
 import { PolicyStatement, Effect, PolicyDocument, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { App, Branch, GitHubSourceCodeProvider, Platform, RedirectStatus } from '@aws-cdk/aws-amplify-alpha';
 import { BuildSpec } from 'aws-cdk-lib/aws-codebuild'
-import { getResourcePath } from '../utils/resource';
 import { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export type HostedNextJsAppBranchConfig = {
@@ -73,7 +72,39 @@ export class HostedNextJsApp extends Construct {
       environmentVariables: {
         myAmplifyEnv: 'test', //process.env.myAmplifyEnv on frontend
       },
-      buildSpec: BuildSpec.fromSourceFilename(getResourcePath('buildspec.json')),
+      buildSpec: BuildSpec.fromObject({
+        version: 1,
+        frontend: {
+          phases: {
+            preBuild: {
+              commands: [
+                'cd backend',
+                'npm ci',
+                'npm run deploy:ci',
+                'cd ..',
+                'npm ci',
+                'npm run codegen',
+              ],
+            },
+            build: {
+              commands: [
+                'npm run build',
+              ],
+            },
+          },
+          artifacts: {
+            baseDirectory: '.next',
+            files: [
+              '**/*',
+            ],
+          },
+          cache: {
+            paths: [
+              'node_modules/**/*',
+            ],
+          },
+        },
+      }),
     });
 
     Object.entries(branchConfig).forEach(([branchName, { backendStage }]) => {

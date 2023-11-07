@@ -1,44 +1,38 @@
 import { Construct } from 'constructs';
-import { Stack, StackProps } from 'aws-cdk-lib'
-import { HostedNextJsApp } from '../constructs/hosted-next-js-app';
-import { BedrockEnabledApi } from '../constructs/bedrock-enabled-api';
-import { AmplifyCodegenOutputs } from '../constructs/amplify-codegen-outputs';
-import { AmplifyAuthResources } from '../constructs/amplify-auth-resources';
-import { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
-
-export type BackendStackProps = StackProps & {
-  githubAuthToken: ISecret;
-};
+import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib'
+import { AmplifyGraphqlApi, AmplifyGraphqlDefinition } from '@aws-amplify/graphql-api-construct';
+import { AmplifyAuth } from '@aws-amplify/auth-construct-alpha';
 
 export class BackendStack extends Stack {
-  constructor(scope: Construct, id: string, props: BackendStackProps) {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const auth = new AmplifyAuthResources(this, 'Auth');
-
-    new BedrockEnabledApi(this, 'Api', {
-      userPool: auth.userPool,
-      identityPool: auth.identityPool,
-      enabledBedrockModelIds: ['cohere.command-text-v14'],
+    const auth = new AmplifyAuth(this, 'Auth', {
+      loginWith: {
+        email: true,
+      }
     });
+    new CfnOutput(this, 'UserPoolId', { value: auth.resources.userPool.userPoolId });
+    new CfnOutput(this, 'UserPoolClientId', { value: auth.resources.userPoolClient.userPoolClientId });
+    new CfnOutput(this, 'IdentityPoolId', { value: auth.resources.cfnResources.identityPool.logicalId });
 
-    new HostedNextJsApp(this, 'HostedApp', {
-      githubOwner: 'aherschel',
-      repoName: 'PhoenixBuild',
-      githubAuthToken: props.githubAuthToken,
-      branchConfig: {
-        main: {
-          backendStage: 'PRODUCTION',
-          subdomainPrefix: '',
+    new AmplifyGraphqlApi(this, 'Api', {
+      apiName: 'AlsRewardsClubApi',
+      definition: AmplifyGraphqlDefinition.fromString(/* GraphQL */ `
+        type Recipe @model @auth(rules: [{ allow: owner }, { allow: public, provider: iam, operations: [read] }]) {
+          title: String!
+          description: String!
+        }
+      `),
+      authorizationModes: {
+        defaultAuthorizationMode: 'AMAZON_COGNITO_USER_POOLS',
+        userPoolConfig: { userPool: auth.resources.userPool },
+        iamConfig: {
+          identityPoolId: auth.resources.cfnResources.identityPool.logicalId,
+          authenticatedUserRole: auth.resources.authenticatedUserIamRole,
+          unauthenticatedUserRole: auth.resources.unauthenticatedUserIamRole,
         },
       },
-      domainNames: ['cookiescookies.net'],
-    });
-
-    new AmplifyCodegenOutputs(this, 'Outputs', {
-      userPool: auth.userPool,
-      userPoolClient: auth.userPoolClient,
-      identityPool: auth.identityPool,
     });
   }
 }

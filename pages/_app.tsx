@@ -2,20 +2,20 @@ import '@/styles/globals.css';
 import '@aws-amplify/ui-react/styles.css';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
-import cdkOutputs from '@/output.json';
+import BackendConfig from '@/output.json';
 import type { AppProps } from 'next/app';
 
 Amplify.configure({
-  aws_project_region: cdkOutputs.BackendStack.awsAppsyncRegion,
+  aws_project_region: BackendConfig.AlsRewardsClubBackend.awsAppsyncRegion,
   Auth: {
-    region: cdkOutputs.BackendStack.awsAppsyncRegion,
-    userPoolId: cdkOutputs.BackendStack.UserPoolId,
-    userPoolWebClientId: cdkOutputs.BackendStack.UserPoolClientId,
-    identityPoolId: cdkOutputs.BackendStack.IdentityPoolId,
+    region: BackendConfig.AlsRewardsClubBackend.awsAppsyncRegion,
+    userPoolId: BackendConfig.AlsRewardsClubBackend.UserPoolId,
+    userPoolWebClientId: BackendConfig.AlsRewardsClubBackend.UserPoolClientId,
+    identityPoolId: BackendConfig.AlsRewardsClubBackend.IdentityPoolId,
   },
-  aws_appsync_graphqlEndpoint: cdkOutputs.BackendStack.awsAppsyncApiEndpoint,
-  aws_appsync_region: cdkOutputs.BackendStack.awsAppsyncRegion,
-  aws_appsync_authenticationType: cdkOutputs.BackendStack.awsAppsyncAuthenticationType,
+  aws_appsync_graphqlEndpoint: BackendConfig.AlsRewardsClubBackend.awsAppsyncApiEndpoint,
+  aws_appsync_region: BackendConfig.AlsRewardsClubBackend.awsAppsyncRegion,
+  aws_appsync_authenticationType: BackendConfig.AlsRewardsClubBackend.awsAppsyncAuthenticationType,
 });
 
 export default function App({ Component, pageProps }: AppProps) {
