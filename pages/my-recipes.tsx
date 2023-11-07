@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/navbar'
+import { Footer } from '@/components/footer'
 import { CreateRecipeMutation } from '@/codegen/API'
 import { createRecipe } from '@/codegen/graphql/mutations'
 import { GraphQLResult } from '@aws-amplify/api-graphql'
@@ -92,6 +93,7 @@ function MyRecipes() {
           </form>
         </section>
       </Authenticator>
+      <Footer />
     </>
   );
 }

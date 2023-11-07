@@ -4,6 +4,10 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
 import BackendConfig from '@/output.json';
 import type { AppProps } from 'next/app';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+
+config.autoAddCss = false;
 
 Amplify.configure({
   aws_project_region: BackendConfig.AlsRewardsClubBackend.awsAppsyncRegion,

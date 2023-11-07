@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/navbar'
+import { Footer } from '@/components/footer'
 import { DeleteRecipeMutation, ListRecipesQuery, Recipe } from '@/codegen/API'
 import { deleteRecipe } from '@/codegen/graphql/mutations'
 import { listRecipes } from '@/codegen/graphql/queries'
@@ -81,6 +82,7 @@ function Home() {
         ))}
       </ul>
       </section>
+      <Footer />
     </>
   );
 }
