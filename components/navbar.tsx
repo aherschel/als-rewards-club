@@ -3,7 +3,8 @@ import { Auth } from 'aws-amplify'
 import Link from 'next/link'
 
 export const Navbar = () => {
-  const { user } = useAuthenticator((context) => [context.user]);
+  const { user } = useAuthenticator((context) => [context.user])
+  const email = user?.attributes?.email;
 
   return (
     <div className="navbar bg-base-100">
@@ -19,11 +20,13 @@ export const Navbar = () => {
         <ul className="menu menu-horizontal px-1">
           {user && (
             <ul className="menu menu-horizontal px-1">
-              <li>
-                <span className="normal-case text-l select-none">
-                  Welcome {user.username}
-                </span>
-              </li>
+              { email && (
+                <li>
+                  <span className="normal-case text-l select-none">
+                    Welcome {email}
+                  </span>
+                </li>
+              )}
               <li>
                 <button onClick={() => Auth.signOut()} className="btn">
                   <span className='normal-case text-l'>Sign Out</span>
