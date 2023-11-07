@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "frontend": {
+    "phases": {
+      "preBuild": {
+        "commands": [
+          "cd backend",
+          "npm ci",
+          "npm run deploy:ci",
+          "cd ..",
+          "npm ci",
+          "npm run codegen"
+        ]
+      },
+      "build": {
+        "commands": ["npm run build"]
+      }
+    },
+    "artifacts": {
+      "baseDirectory": ".next",
+      "files": ["**/*"]
+    },
+    "cache": {
+      "paths": ["node_modules/**/*"]
+    }
+  }
+}
