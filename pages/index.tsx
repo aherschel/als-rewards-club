@@ -8,6 +8,7 @@ import { useAuthenticator } from '@aws-amplify/ui-react'
 import { API } from 'aws-amplify'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import Head from 'next/head'
 
 function Home() {
   const [recipes, setRecipes] = useState<[] | Recipe[]>([]);
@@ -54,6 +55,9 @@ function Home() {
 
   return (
     <>
+      <Head>
+        <title>Al&apos;s Rewards Club</title>
+      </Head>
       <Navbar />
       <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">

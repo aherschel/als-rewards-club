@@ -7,6 +7,7 @@ import { Authenticator } from '@aws-amplify/ui-react'
 import { API } from 'aws-amplify'
 import { useState } from 'react'
 import Router from 'next/router'
+import Head from 'next/head'
 
 const extractJson = (str: string): any => {
   // Use a regex to find content between ```json and ```
@@ -52,6 +53,9 @@ function MyRecipes() {
 
   return (
     <>
+      <Head>
+        <title>Al&apos;s Rewards Club</title>
+      </Head>
       <Navbar />
       <Authenticator signUpAttributes={['email']}>
         <section className="flex justify-center">
