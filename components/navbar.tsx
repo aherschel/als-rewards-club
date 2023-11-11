@@ -1,11 +1,13 @@
-import { useAuthenticator } from '@aws-amplify/ui-react'
+import { AmplifyUser } from '@aws-amplify/ui'
 import { Auth } from 'aws-amplify'
 import Link from 'next/link'
 
-export const Navbar = () => {
-  const { user } = useAuthenticator((context) => [context.user])
-  const email = user?.attributes?.email;
+export type NavbarProps = {
+  user: AmplifyUser;
+};
 
+export const Navbar = ({ user }: NavbarProps) => {
+  const email = user?.attributes?.email;
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">

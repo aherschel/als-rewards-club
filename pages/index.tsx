@@ -10,7 +10,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 
-function Home() {
+const Home = () => {
   const [recipes, setRecipes] = useState<[] | Recipe[]>([]);
   const { user } = useAuthenticator((context) => [context.user]);
 
@@ -58,7 +58,7 @@ function Home() {
       <Head>
         <title>Al&apos;s Rewards Club</title>
       </Head>
-      <Navbar />
+      <Navbar user={user} />
       <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">
         <div className="max-w-md">
@@ -89,6 +89,6 @@ function Home() {
       <Footer />
     </>
   );
-}
+};
 
 export default Home;

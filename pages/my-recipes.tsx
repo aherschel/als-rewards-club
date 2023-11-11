@@ -8,23 +8,10 @@ import { API } from 'aws-amplify'
 import { useState } from 'react'
 import Router from 'next/router'
 import Head from 'next/head'
+import { useAuthenticator } from '@aws-amplify/ui-react'
 
-const extractJson = (str: string): any => {
-  // Use a regex to find content between ```json and ```
-  const match = str.match(/```json\s*([\s\S]+?)\s*```/);
-
-  if (!match || !match[1]) {
-    throw new Error('No matcher found in response while extracting json');
-  }
-
-  try {
-    return JSON.parse(match[1])
-  } catch (error) {
-    console.error('Failed to parse JSON:', error)
-  }
-};
-
-function MyRecipes() {
+const MyRecipes = () => {
+  const { user } = useAuthenticator((context) => [context.user]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -56,7 +43,7 @@ function MyRecipes() {
       <Head>
         <title>Al&apos;s Rewards Club</title>
       </Head>
-      <Navbar />
+      <Navbar user={user} />
       <Authenticator signUpAttributes={['email']}>
         <section className="flex justify-center">
           <form onSubmit={handleSubmit} className="flex flex-col items-center max-w-lg">
@@ -100,6 +87,6 @@ function MyRecipes() {
       <Footer />
     </>
   );
-}
+};
 
 export default MyRecipes;
