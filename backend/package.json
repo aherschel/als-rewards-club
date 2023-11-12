@@ -13,22 +13,22 @@
     "deploy:hosting": "cdk deploy AlsRewardsClubHosting",
     "deploy:dev": "cdk deploy AlsRewardsClubBackend",
     "deploy": "cdk deploy",
-    "deploy:ci": "cdk deploy AlsRewardsClubBackend --require-approval never"
+    "deploy:ci": "cdk deploy AlsRewardsClubBackend --require-approval never",
+    "generate:config": "amplify generate config --stack AlsRewardsClubBackend --out-dir .."
   },
   "devDependencies": {
-    "@types/node": "20.7.1",
-    "aws-cdk": "2.103.0",
-    "ts-node": "^10.9.1",
-    "typescript": "~5.2.2"
-  },
-  "dependencies": {
+    "@aws-amplify/backend-cli": "^0.6.0",
     "@aws-amplify/auth-construct-alpha": "^0.2.4",
     "@aws-amplify/graphql-api-construct": "^1.1.4",
     "@aws-amplify/data-schema": "^0.11.1",
     "@aws-appsync/utils": "^1.5.0",
     "@aws-cdk/aws-amplify-alpha": "^2.103.0-alpha.0",
+    "@types/node": "20.7.1",
+    "aws-cdk": "2.103.0",
     "aws-cdk-lib": "2.103.0",
     "constructs": "^10.3.0",
-    "source-map-support": "^0.5.21"
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.1",
+    "typescript": "~5.2.2"
   }
 }

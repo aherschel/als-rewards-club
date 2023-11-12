@@ -10,19 +10,9 @@ export type JamListProps = {
 export const JamList = ({ user }: JamListProps) => {
   const [jams, setJams] = useState<any[]>([]);
 
-  const client = generateClient<Schema>();
-
-  const loadJams = async () => {
-    try {
-      const response = await client.models.Jam.list();
-      if (response.errors) throw new Error(`Received API error: ${JSON.stringify(response.errors, null, 2)}`);
-      setJams(response.data);
-    } catch (e) {
-      console.error('Caught exception while loading jams', e);
-    }
-  };
-
-  useEffect(() => { loadJams() }, [user]);
+  useEffect(() => {
+    generateClient<Schema>().models.Jam.observeQuery().subscribe((values) => setJams(values.items));
+  }, [user]);
 
   return (
     <section className="flex justify-center mt-6">
