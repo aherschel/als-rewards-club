@@ -88,7 +88,7 @@ export class HostedNextJsApp extends Construct {
             },
             build: {
               commands: [
-                'npm ci',
+                'npm i',
                 'npm run build',
               ],
             },
