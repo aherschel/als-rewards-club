@@ -46,6 +46,7 @@ export class HostedNextJsApp extends Construct {
                 'appsync:GetGraphqlApi',
                 'cloudformation:GetTemplateSummary',
                 'cloudformation:DescribeStacks',
+                's3:GetObject',
               ],
               resources: ['*'],
             }),
