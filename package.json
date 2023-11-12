@@ -9,7 +9,7 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "generate:config": "amplify generate config --stack AlsRewardsClubBackend"
+    "generate:config": "amplify generate config --stack AlsRewardsClubBackend --out-dir ."
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^0.0.0-next-release-unstable-7af6baa-20231110034148",

@@ -83,6 +83,7 @@ export class HostedNextJsApp extends Construct {
                 'npm run deploy:ci',
                 'cd ..',
                 'npm ci',
+                'pwd',
                 'npm run generate:config',
               ],
             },
@@ -94,14 +95,10 @@ export class HostedNextJsApp extends Construct {
           },
           artifacts: {
             baseDirectory: '.next',
-            files: [
-              '**/*',
-            ],
+            files: ['**/*'],
           },
           cache: {
-            paths: [
-              'node_modules/**/*',
-            ],
+            paths: ['node_modules/**/*'],
           },
         },
       }),

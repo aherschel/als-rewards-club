@@ -9,11 +9,11 @@
     "watch": "tsc -w",
     "test": "echo \"No tests\"",
     "cdk": "cdk",
-    "deploy:secrets": "npx aws-cdk deploy AlsRewardsClubSecrets",
-    "deploy:hosting": "npx aws-cdk deploy AlsRewardsClubHosting",
-    "deploy:dev": "npx aws-cdk deploy AlsRewardsClubBackend",
-    "deploy": "npx aws-cdk deploy",
-    "deploy:ci": "npx aws-cdk deploy AlsRewardsClubBackend --require-approval never"
+    "deploy:secrets": "cdk deploy AlsRewardsClubSecrets",
+    "deploy:hosting": "cdk deploy AlsRewardsClubHosting",
+    "deploy:dev": "cdk deploy AlsRewardsClubBackend",
+    "deploy": "cdk deploy",
+    "deploy:ci": "cdk deploy AlsRewardsClubBackend --require-approval never"
   },
   "devDependencies": {
     "@types/node": "20.7.1",
