@@ -27,6 +27,9 @@ export const Cms = ({ user }: CmsProps) => {
 
   const createJam = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (title === '' || description === '') {
+      return;
+    }
     try {
       const response = await client.models.Jam.create({ title, description });
       if (response.errors) throw new Error(`Received API error: ${JSON.stringify(response.errors, null, 2)}`);
