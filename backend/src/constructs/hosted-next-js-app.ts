@@ -80,6 +80,7 @@ export class HostedNextJsApp extends Construct {
             preBuild: {
               commands: [
                 'cd backend',
+                'nvm use v18',
                 'npm ci',
                 'npm run deploy:ci',
                 'npm run generate:config',
