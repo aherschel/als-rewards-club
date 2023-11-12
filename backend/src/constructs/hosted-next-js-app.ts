@@ -80,7 +80,7 @@ export class HostedNextJsApp extends Construct {
               commands: [
                 'cd backend',
                 'nvm use v18',
-                'npm ci',
+                'npm i',
                 'npm run deploy:ci',
                 'npm run generate:config',
                 'cd ..',
@@ -88,7 +88,7 @@ export class HostedNextJsApp extends Construct {
             },
             build: {
               commands: [
-                'npm i',
+                'npm ci',
                 'npm run build',
               ],
             },
