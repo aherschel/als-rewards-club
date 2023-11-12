@@ -1,8 +1,8 @@
 import { Construct } from 'constructs';
-import { Stack, Duration } from 'aws-cdk-lib'
+import { Stack, Duration } from 'aws-cdk-lib';
 import { PolicyStatement, Effect, PolicyDocument, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { App, Branch, GitHubSourceCodeProvider, Platform, RedirectStatus } from '@aws-cdk/aws-amplify-alpha';
-import { BuildSpec } from 'aws-cdk-lib/aws-codebuild'
+import { BuildSpec } from 'aws-cdk-lib/aws-codebuild';
 import { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export type HostedNextJsAppBranchConfig = {
@@ -14,7 +14,7 @@ export type HostedNextJsAppProps = {
   githubOwner: string;
   repoName: string;
   githubAuthToken: ISecret;
-  branchConfig: Record<string, HostedNextJsAppBranchConfig>
+  branchConfig: Record<string, HostedNextJsAppBranchConfig>;
   domainNames?: string[];
 };
 
@@ -41,7 +41,6 @@ export class HostedNextJsApp extends Construct {
             }),
             new PolicyStatement({
               effect: Effect.ALLOW,
-              // Todo: Use API to get Arns for specific permissions here.
               actions: [
                 'appsync:GetIntrospectionSchema',
                 'appsync:GetGraphqlApi',
@@ -64,15 +63,13 @@ export class HostedNextJsApp extends Construct {
       }),
       platform: Platform.WEB_COMPUTE,
       autoBranchDeletion: true,
-      customRules: [
-        {
-          source: '/<*>',
-          target: '/index.html',
-          status: RedirectStatus.NOT_FOUND_REWRITE,
-        },
-      ],
+      customRules: [{
+        source: '/<*>',
+        target: '/index.html',
+        status: RedirectStatus.NOT_FOUND_REWRITE,
+      }],
       environmentVariables: {
-        myAmplifyEnv: 'test', //process.env.myAmplifyEnv on frontend
+        myAmplifyEnv: 'test', // process.env.myAmplifyEnv on frontend
       },
       buildSpec: BuildSpec.fromObject({
         version: 1,
@@ -84,9 +81,9 @@ export class HostedNextJsApp extends Construct {
                 'nvm use v18',
                 'npm ci',
                 'npm run deploy:ci',
-                'npm run generate:config',
                 'cd ..',
                 'npm ci',
+                'npm run generate:config',
               ],
             },
             build: {
