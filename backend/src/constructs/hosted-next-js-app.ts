@@ -81,9 +81,9 @@ export class HostedNextJsApp extends Construct {
                 'cd backend',
                 'npm ci',
                 'npm run deploy:ci',
+                'npm run generate:config',
                 'cd ..',
                 'npm ci',
-                'npm run codegen',
               ],
             },
             build: {
