@@ -45,6 +45,7 @@ export class HostedNextJsApp extends Construct {
               actions: [
                 'appsync:GetIntrospectionSchema',
                 'appsync:GetGraphqlApi',
+                'cloudformation:GetTemplateSummary',
               ],
               resources: ['*'],
             }),
