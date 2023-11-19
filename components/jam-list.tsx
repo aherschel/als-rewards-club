@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
-import { AmplifyUser } from '@aws-amplify/ui'
 import { generateClient } from 'aws-amplify/api';
 import { Schema } from '@/backend/src/schema';
 
 export type JamListProps = {
-  user?: AmplifyUser;
+  user?: any;
 };
 
 export const JamList = ({ user }: JamListProps) => {
-  const [jams, setJams] = useState<any[]>([]);
+  const [jams, setJams] = useState<Schema['Jam'][]>([]);
 
   useEffect(() => {
-    generateClient<Schema>().models.Jam.observeQuery().subscribe((values) => setJams(values.items));
+    generateClient<Schema>().models.Jam
+      .observeQuery({ authMode: 'iam' })
+      .subscribe((values) => setJams(values.items));
   }, [user]);
 
   return (

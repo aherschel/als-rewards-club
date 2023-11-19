@@ -1,9 +1,8 @@
-import { AmplifyUser } from '@aws-amplify/ui'
 import { signOut } from 'aws-amplify/auth'
 import Link from 'next/link'
 
 export type NavbarProps = {
-  user: AmplifyUser;
+  user: any;
 };
 
 export const Navbar = ({ user }: NavbarProps) => {

@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { AmplifyUser } from '@aws-amplify/ui'
 import { generateClient } from 'aws-amplify/api';
 import { Schema } from '@/backend/src/schema';
 import { JamList } from '.';
 
 export type CmsProps = {
-  user: AmplifyUser;
+  user: any;
 };
 
 export const Cms = ({ user }: CmsProps) => {
