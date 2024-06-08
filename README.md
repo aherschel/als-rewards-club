@@ -1,6 +1,5 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app), and built using CDK. It is hosted on Amplify hosting, which requires a git repo to commit to, in order to trigger builds.
 
-
 ## Getting Started
 
 First, deploy the backend app
